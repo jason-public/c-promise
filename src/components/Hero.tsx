@@ -34,6 +34,26 @@ export function Hero() {
         >
           더 나은 남양주를 위한 약속, 시민과 함께 만들어가겠습니다.
         </motion.p>
+
+        <motion.div
+          className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-md mx-auto md:hidden"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+        >
+          <a
+            href="#core-pledges"
+            className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold flex items-center justify-center transition-colors shadow-lg shadow-blue-900/20"
+          >
+            핵심 미래 비전
+          </a>
+          <a
+            href="#detailed-pledges"
+            className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold flex items-center justify-center transition-colors border border-slate-700"
+          >
+            분야별 세부 공약
+          </a>
+        </motion.div>
       </div>
     </section>
   );
