@@ -14,9 +14,6 @@ export function Footer() {
           </p>
         </div>
         <div className="flex gap-4">
-          <a href="https://c-promise.vercel.app/" target="_blank" rel="noreferrer" className="text-sm text-slate-400 hover:text-white transition-colors">
-            공식 홈페이지
-          </a>
           <a href="https://m.blog.naver.com/hope4future2015/224291285970" target="_blank" rel="noreferrer" className="text-sm text-slate-400 hover:text-white transition-colors">
             블로그 원문
           </a>
