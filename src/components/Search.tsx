@@ -35,7 +35,7 @@ export function SearchBar({ searchTerm, setSearchTerm }: { searchTerm: string; s
           <input
             type="text"
             className="block w-full pl-14 pr-12 py-4 border-2 border-slate-200 dark:border-slate-700 rounded-2xl leading-5 bg-slate-50 dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:border-blue-500 dark:focus:border-blue-400 focus:ring-4 focus:ring-blue-500/10 dark:text-white transition-all sm:text-lg outline-none"
-            placeholder="관심있는 공약 키워드를 검색해보세요 (예: 교통, 청년, 복지)"
+            placeholder="관심있는 약속 키워드를 검색해보세요 (예: 교통, 청년, 복지)"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -98,7 +98,7 @@ export function SearchResults({ searchTerm }: { searchTerm: string }) {
         <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4 shrink-0">
           <SearchIcon className="w-8 h-8 text-slate-300 dark:text-slate-600" />
         </div>
-        <p className="text-xl text-slate-500 dark:text-slate-400 font-medium max-w-full break-words">"{searchTerm}"에 대한 공약을 찾을 수 없습니다.</p>
+        <p className="text-xl text-slate-500 dark:text-slate-400 font-medium max-w-full break-words">"{searchTerm}"에 대한 약속을 찾을 수 없습니다.</p>
         <p className="text-slate-400 dark:text-slate-500 mt-2">다른 키워드로 검색해보세요.</p>
       </section>
     );
@@ -172,7 +172,7 @@ export function SearchResults({ searchTerm }: { searchTerm: string }) {
             <div className="space-y-8">
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
                 <span className="w-2 h-6 bg-emerald-500 rounded-full inline-block"></span>
-                분야별 세부 공약
+                분야별 세부 약속
               </h3>
               {results.categories.map((cat) => (
                 <motion.div 

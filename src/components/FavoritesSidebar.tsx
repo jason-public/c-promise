@@ -33,7 +33,7 @@ export function FavoritesSidebar() {
             <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50 dark:bg-slate-900">
               <h2 className="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                나의 관심 공약
+                나의 관심 약속
               </h2>
               <button
                 onClick={() => setSidebarOpen(false)}
@@ -50,7 +50,7 @@ export function FavoritesSidebar() {
                   <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Star className="w-8 h-8 text-slate-300 dark:text-slate-600" />
                   </div>
-                  <p className="text-slate-500 dark:text-slate-400">관심 있는 공약을 추가해보세요.</p>
+                  <p className="text-slate-500 dark:text-slate-400">관심 있는 약속을 추가해보세요.</p>
                 </div>
               ) : (
                 favorites.map((pledge, idx) => (
@@ -76,7 +76,7 @@ export function FavoritesSidebar() {
                       <button
                         onClick={() => toggleFavorite(pledge)}
                         className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
-                        title="관심 공약에서 제거"
+                        title="관심 약속에서 제거"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

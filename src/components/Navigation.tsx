@@ -30,10 +30,10 @@ export function Navigation({ onNavigate }: { onNavigate?: () => void }) {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl leading-none">남</span>
+              <div className="w-auto px-2 h-8 bg-blue-500 rounded-lg flex items-center justify-center shrink-0">
+                <span className="text-white font-bold text-sm leading-none">남양주</span>
               </div>
-              <span className="text-white font-bold text-xl tracking-tight">당선인 공약집</span>
+              <span className="text-white font-bold text-xl tracking-tight">시민과 함께 만들어 가는 미래</span>
             </div>
             
             <div className="flex items-center gap-2 sm:gap-4">
@@ -42,17 +42,17 @@ export function Navigation({ onNavigate }: { onNavigate?: () => void }) {
                   핵심 미래 비전
                 </a>
                 <a href="#regional-pledges" onClick={() => onNavigate?.()} className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
-                  지역별 공약
+                  지역별 약속
                 </a>
                 <a href="#detailed-pledges" onClick={() => onNavigate?.()} className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
-                  분야별 세부 공약
+                  분야별 세부 약속
                 </a>
               </nav>
               
               <button
                 onClick={() => setSidebarOpen(true)}
                 className="relative p-2 text-slate-300 hover:text-yellow-400 transition-colors rounded-full hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-yellow-400/50"
-                aria-label="관심 공약 열기"
+                aria-label="관심 약속 열기"
               >
                 <Star className="w-5 h-5" />
                 {favorites.length > 0 && (
@@ -101,14 +101,14 @@ export function Navigation({ onNavigate }: { onNavigate?: () => void }) {
                 onClick={() => { setIsMenuOpen(false); onNavigate?.(); }}
                 className="text-base font-medium text-slate-300 hover:text-white transition-colors block py-2"
               >
-                지역별 공약
+                지역별 약속
               </a>
               <a 
                 href="#detailed-pledges" 
                 onClick={() => { setIsMenuOpen(false); onNavigate?.(); }}
                 className="text-base font-medium text-slate-300 hover:text-white transition-colors block py-2"
               >
-                분야별 세부 공약
+                분야별 세부 약속
               </a>
             </nav>
           </motion.div>

@@ -44,12 +44,27 @@ export function CorePledges() {
                 }
               }}
             >
-              {isFavorite(pledge.title) && (
-                <div className="absolute top-6 right-6">
+              <div className="absolute top-6 right-6 flex items-center gap-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const text = `${pledge.title}. ${pledge.items.join('. ')}`;
+                    toggleTTS(pledge.title, text);
+                  }}
+                  className={`p-1.5 rounded-full transition-colors flex-shrink-0 ${
+                    isSpeaking && currentTitle === pledge.title
+                      ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                      : 'text-slate-400 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700'
+                  }`}
+                  aria-label="음성 낭독 토글"
+                >
+                  {isSpeaking && currentTitle === pledge.title ? <Square className="w-5 h-5 fill-current" /> : <Volume2 className="w-5 h-5" />}
+                </button>
+                {isFavorite(pledge.title) && (
                   <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                </div>
-              )}
-              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors pr-6">{pledge.title}</h3>
+                )}
+              </div>
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-6 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors pr-16">{pledge.title}</h3>
               <ul className="space-y-4">
                 {pledge.items.map((item, itemIndex) => (
                   <li key={itemIndex} className="flex items-start text-slate-700 dark:text-slate-300">

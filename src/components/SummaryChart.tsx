@@ -34,7 +34,7 @@ export function SummaryChart() {
     <section className="py-20 bg-white dark:bg-slate-900 border-y border-slate-100 dark:border-slate-800 transition-colors duration-300" id="summary-chart">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl">분야별 세부 공약 분포</h2>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl">분야별 세부 약속 분포</h2>
           <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">다양한 분야에서 약속한 구체적인 실천 과제의 수량입니다.</p>
         </div>
 

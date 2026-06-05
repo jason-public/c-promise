@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { regionalPledges } from '../data/regionalPledges';
-import { MapPin, Check, X } from 'lucide-react';
+import { MapPin, Check, X, Volume2, Square } from 'lucide-react';
 import { MapComponent } from './MapComponent';
+import { useTTS } from './TTSContext';
 
 export function RegionalPledges() {
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const { isSpeaking, currentTitle, toggleTTS } = useTTS();
 
   const activeRegionData = selectedRegion ? regionalPledges.find(r => r.region === selectedRegion) : null;
 
@@ -19,7 +21,7 @@ export function RegionalPledges() {
             viewport={{ once: true }}
             className="text-3xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-6"
           >
-            지역별 공약
+            지역별 약속
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -28,7 +30,7 @@ export function RegionalPledges() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto"
           >
-            지도의 지역을 선택하여 공약을 확인해보세요.
+            지도의 지역을 선택하여 약속을 확인해보세요.
           </motion.p>
         </div>
 
@@ -71,9 +73,26 @@ export function RegionalPledges() {
                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 dark:bg-blue-900/40 rounded-xl flex items-center justify-center shrink-0">
                        <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400" />
                      </div>
-                     <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
-                       {activeRegionData.region} 공약
-                     </h3>
+                     <div className="flex items-center justify-between w-full">
+                       <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                         {activeRegionData.region} 약속
+                       </h3>
+                       <button
+                         onClick={(e) => {
+                           e.stopPropagation();
+                           const text = `${activeRegionData.region} 약속. ${activeRegionData.items.join('. ')}`;
+                           toggleTTS(activeRegionData.region, text);
+                         }}
+                         className={`p-2 rounded-full transition-colors flex-shrink-0 mr-4 ${
+                           isSpeaking && currentTitle === activeRegionData.region
+                             ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40'
+                             : 'text-slate-400 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700'
+                         }`}
+                         aria-label="음성 낭독 토글"
+                       >
+                         {isSpeaking && currentTitle === activeRegionData.region ? <Square className="w-6 h-6 fill-current" /> : <Volume2 className="w-6 h-6" />}
+                       </button>
+                     </div>
                    </div>
 
                    <ul className="space-y-3 sm:space-y-4">

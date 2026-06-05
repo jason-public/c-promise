@@ -22,7 +22,7 @@ export function CategoryDetail() {
     <section className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300" id="detailed-pledges">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl">분야별 세부 공약</h2>
+          <h2 className="text-3xl font-bold text-slate-900 dark:text-white tracking-tight sm:text-4xl">분야별 세부 약속</h2>
           <p className="mt-4 text-lg text-slate-600 dark:text-slate-400">시민의 삶의 질을 높이는 구체적인 실천 방안</p>
         </div>
 
@@ -93,7 +93,7 @@ export function CategoryDetail() {
                               className={`p-1.5 rounded-full transition-colors flex-shrink-0 ${
                                 isSpeaking && currentTitle === subPledge.title
                                   ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                                  : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                  : 'text-slate-400 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700'
                               }`}
                               aria-label="음성 낭독 토글"
                             >
@@ -104,7 +104,7 @@ export function CategoryDetail() {
                               className={`p-1.5 rounded-full transition-colors flex-shrink-0 ${
                                 isFavorite(subPledge.title)
                                   ? 'text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
-                                  : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-yellow-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                  : 'text-slate-400 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 focus-visible:opacity-100 hover:text-yellow-400 hover:bg-slate-100 dark:hover:bg-slate-700'
                               }`}
                               aria-label="관심 공약 토글"
                             >
