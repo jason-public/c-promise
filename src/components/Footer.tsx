@@ -9,9 +9,6 @@ export function Footer() {
             </div>
             <span className="text-slate-300 font-semibold text-lg tracking-tight">시민과 함께 만들어가는 남양주의 미래</span>
           </div>
-          <p className="text-slate-500 text-sm">
-            시민과 함께 만드는 더 나은 남양주
-          </p>
         </div>
         <div className="flex gap-4">
           <a href="https://m.blog.naver.com/hope4future2015/224291285970" target="_blank" rel="noreferrer" className="text-sm text-slate-400 hover:text-white transition-colors">
