@@ -3,9 +3,9 @@ import { motion } from 'motion/react';
 export function Hero({ onSearch, onNavigate }: { onSearch: (term: string) => void, onNavigate?: () => void }) {
   return (
     <section className="relative w-full bg-slate-900 text-white overflow-hidden py-24 md:py-32 lg:py-40">
-      {/* 사용자가 업로드할 첨부 이미지 (public/hero-bg.png) */}
+      {/* 사용자가 업로드할 첨부 이미지 (public/hero-bg.webp) */}
       {/* 크기를 줄여 인물이 잘 식별되도록 설정하고 하단/우측 경계는 그라데이션으로 자연스럽게 블렌딩 */}
-      <div className="absolute inset-0 bg-[url('/hero-bg.png')] bg-no-repeat bg-[length:130%] sm:bg-[length:70%] lg:bg-[length:60%] bg-[position:center_top] sm:bg-[position:-5vw_top] opacity-70 sm:opacity-100" />
+      <div className="absolute inset-0 bg-[url('/hero-bg.webp')] bg-no-repeat bg-[length:130%] sm:bg-[length:70%] lg:bg-[length:60%] bg-[position:center_top] sm:bg-[position:-5vw_top] opacity-70 sm:opacity-100" />
       
       {/* 이미지가 자연스럽게 어울리도록 그라데이션 오버레이 추가: 모바일은 아래쪽, 데스크탑은 오른쪽으로 갈수록 어두워짐 */}
       <div className="absolute inset-0 bg-gradient-to-b from-slate-900/10 via-slate-900/80 to-slate-900 sm:bg-gradient-to-r sm:from-transparent sm:via-slate-900/80 sm:to-slate-900" />
