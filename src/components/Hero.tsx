@@ -1,6 +1,6 @@
 import { motion } from 'motion/react';
 
-export function Hero() {
+export function Hero({ onSearch, onNavigate }: { onSearch: (term: string) => void, onNavigate?: () => void }) {
   return (
     <section className="relative w-full bg-slate-900 text-white overflow-hidden py-24 md:py-32">
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1517737282969-90600ddb0c03?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-20 MixBlendMode-overlay" />
@@ -43,18 +43,21 @@ export function Hero() {
         >
           <a
             href="#core-pledges"
+            onClick={() => onNavigate?.()}
             className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold flex items-center justify-center transition-colors shadow-lg shadow-blue-900/20"
           >
             핵심 비전
           </a>
           <a
             href="#regional-pledges"
+            onClick={() => onNavigate?.()}
             className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold flex items-center justify-center transition-colors shadow-lg shadow-emerald-900/20"
           >
             지역별 공약
           </a>
           <a
             href="#detailed-pledges"
+            onClick={() => onNavigate?.()}
             className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold flex items-center justify-center transition-colors border border-slate-700"
           >
             세부 공약

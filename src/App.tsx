@@ -17,6 +17,19 @@ export default function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  const handleNavigate = () => {
+    if (searchTerm) {
+      setSearchTerm('');
+      setTimeout(() => {
+        const hash = window.location.hash;
+        if (hash) {
+          const el = document.querySelector(hash);
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 50);
+    }
+  };
+
   return (
     <ThemeProvider>
       <TTSProvider>
@@ -27,11 +40,11 @@ export default function App() {
               style={{ scaleX }} 
             />
             
-            <Navigation />
+            <Navigation onNavigate={handleNavigate} />
             <FavoritesSidebar />
             
             <main>
-              <Hero />
+              <Hero onSearch={setSearchTerm} onNavigate={handleNavigate} />
               <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
               {searchTerm ? (
                 <SearchResults searchTerm={searchTerm} />
