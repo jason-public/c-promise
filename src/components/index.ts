@@ -5,3 +5,6 @@ export * from './Navigation';
 export * from './Footer';
 export * from './Search';
 export * from './SummaryChart';
+export * from './ThemeProvider';
+export * from './FavoritesContext';
+export * from './FavoritesSidebar';
