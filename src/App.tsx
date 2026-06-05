@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { Navigation, Hero, CorePledges, CategoryDetail, Footer, SearchBar, SearchResults, SummaryChart, ThemeProvider, FavoritesProvider, FavoritesSidebar, TTSProvider } from '@/src/components';
+import { Navigation, Hero, CorePledges, CategoryDetail, Footer, SearchBar, SearchResults, SummaryChart, ThemeProvider, FavoritesProvider, FavoritesSidebar, TTSProvider, RegionalPledges } from '@/src/components';
 import { motion, useScroll, useSpring } from 'motion/react';
 import { useState } from 'react';
 
@@ -39,6 +39,7 @@ export default function App() {
                 <>
                   <CorePledges />
                   <SummaryChart />
+                  <RegionalPledges />
                   <CategoryDetail />
                 </>
               )}

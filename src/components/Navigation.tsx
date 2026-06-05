@@ -41,6 +41,9 @@ export function Navigation() {
                 <a href="#core-pledges" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
                   핵심 미래 비전
                 </a>
+                <a href="#regional-pledges" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
+                  지역별 공약
+                </a>
                 <a href="#detailed-pledges" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
                   분야별 세부 공약
                 </a>
@@ -92,6 +95,13 @@ export function Navigation() {
                 className="text-base font-medium text-slate-300 hover:text-white transition-colors block py-2"
               >
                 핵심 미래 비전
+              </a>
+              <a 
+                href="#regional-pledges" 
+                onClick={() => setIsMenuOpen(false)}
+                className="text-base font-medium text-slate-300 hover:text-white transition-colors block py-2"
+              >
+                지역별 공약
               </a>
               <a 
                 href="#detailed-pledges" 

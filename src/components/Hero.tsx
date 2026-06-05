@@ -36,7 +36,7 @@ export function Hero() {
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-md mx-auto md:hidden"
+          className="flex flex-col sm:flex-row gap-4 w-full max-w-xs sm:max-w-xl mx-auto md:hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
@@ -45,13 +45,19 @@ export function Hero() {
             href="#core-pledges"
             className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold flex items-center justify-center transition-colors shadow-lg shadow-blue-900/20"
           >
-            핵심 미래 비전
+            핵심 비전
+          </a>
+          <a
+            href="#regional-pledges"
+            className="w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold flex items-center justify-center transition-colors shadow-lg shadow-emerald-900/20"
+          >
+            지역별 공약
           </a>
           <a
             href="#detailed-pledges"
             className="w-full py-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold flex items-center justify-center transition-colors border border-slate-700"
           >
-            분야별 세부 공약
+            세부 공약
           </a>
         </motion.div>
       </div>

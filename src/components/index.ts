@@ -9,3 +9,4 @@ export * from './ThemeProvider';
 export * from './FavoritesContext';
 export * from './FavoritesSidebar';
 export * from './TTSContext';
+export * from './RegionalPledges';
