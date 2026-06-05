@@ -31,7 +31,7 @@ export function Navigation() {
             <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl leading-none">남</span>
             </div>
-            <span className="text-white font-bold text-xl tracking-tight">남양주 공약집</span>
+            <span className="text-white font-bold text-xl tracking-tight">당선인 공약집</span>
           </div>
           
           <div className="flex items-center gap-4 sm:gap-6">

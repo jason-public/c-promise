@@ -1,12 +1,14 @@
 import { useState, KeyboardEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { corePledges, SubPledge } from '../data/pledges';
-import { X, Star } from 'lucide-react';
+import { X, Star, Volume2, Square } from 'lucide-react';
 import { useFavorites } from './FavoritesContext';
+import { useTTS } from './TTSContext';
 
 export function CorePledges() {
   const [selectedPledge, setSelectedPledge] = useState<SubPledge | null>(null);
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { isSpeaking, currentTitle, toggleTTS } = useTTS();
 
   // Close modal on escape key
   const handleKeyDown = (e: KeyboardEvent) => {
@@ -88,6 +90,20 @@ export function CorePledges() {
                     {selectedPledge.title}
                   </h3>
                   <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        const text = `${selectedPledge.title}. ${selectedPledge.items.join('. ')}`;
+                        toggleTTS(selectedPledge.title, text);
+                      }}
+                      className={`p-2 rounded-full transition-colors ${
+                        isSpeaking && currentTitle === selectedPledge.title
+                          ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40'
+                          : 'text-slate-400 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700'
+                      }`}
+                      aria-label="음성 낭독 토글"
+                    >
+                      {isSpeaking && currentTitle === selectedPledge.title ? <Square className="w-6 h-6 fill-current" /> : <Volume2 className="w-6 h-6" />}
+                    </button>
                     <button
                       onClick={() => toggleFavorite(selectedPledge)}
                       className={`p-2 rounded-full transition-colors ${

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { pledgeCategories, PledgeCategory } from '../data/pledges';
 import * as Icons from 'lucide-react';
 import { useFavorites } from './FavoritesContext';
+import { useTTS } from './TTSContext';
 
 function Icon({ name, className }: { name: string; className?: string }) {
   const LucideIcon = (Icons as any)[name];
@@ -13,6 +14,7 @@ export function CategoryDetail() {
   const [activeTab, setActiveTab] = useState(pledgeCategories[0].id);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { isSpeaking, currentTitle, toggleTTS } = useTTS();
 
   const activeCategory = pledgeCategories.find(c => c.id === activeTab) || pledgeCategories[0];
 
@@ -82,17 +84,33 @@ export function CategoryDetail() {
                           <h4 className="text-lg font-bold text-slate-900 dark:text-white pr-4">
                             {subPledge.title}
                           </h4>
-                          <button
-                            onClick={() => toggleFavorite(subPledge)}
-                            className={`p-1.5 rounded-full transition-colors flex-shrink-0 ${
-                              isFavorite(subPledge.title)
-                                ? 'text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
-                                : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-yellow-400 hover:bg-slate-100 dark:hover:bg-slate-700'
-                            }`}
-                            aria-label="관심 공약 토글"
-                          >
-                            <Icons.Star className={`w-5 h-5 ${isFavorite(subPledge.title) ? 'fill-yellow-400' : ''}`} />
-                          </button>
+                          <div className="flex items-center gap-1">
+                            <button
+                              onClick={() => {
+                                const text = `${subPledge.title}. ${subPledge.items.join('. ')}`;
+                                toggleTTS(subPledge.title, text);
+                              }}
+                              className={`p-1.5 rounded-full transition-colors flex-shrink-0 ${
+                                isSpeaking && currentTitle === subPledge.title
+                                  ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                                  : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700'
+                              }`}
+                              aria-label="음성 낭독 토글"
+                            >
+                              {isSpeaking && currentTitle === subPledge.title ? <Icons.Square className="w-5 h-5 fill-current" /> : <Icons.Volume2 className="w-5 h-5" />}
+                            </button>
+                            <button
+                              onClick={() => toggleFavorite(subPledge)}
+                              className={`p-1.5 rounded-full transition-colors flex-shrink-0 ${
+                                isFavorite(subPledge.title)
+                                  ? 'text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
+                                  : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-yellow-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                              }`}
+                              aria-label="관심 공약 토글"
+                            >
+                              <Icons.Star className={`w-5 h-5 ${isFavorite(subPledge.title) ? 'fill-yellow-400' : ''}`} />
+                            </button>
+                          </div>
                         </div>
                         <ul className="space-y-3">
                           {subPledge.items.map((item, itemIdx) => (

@@ -1,11 +1,13 @@
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Star, Trash2 } from 'lucide-react';
+import { X, Star, Trash2, Volume2, Square } from 'lucide-react';
 import { useFavorites } from './FavoritesContext';
 import { useTheme } from './ThemeProvider';
+import { useTTS } from './TTSContext';
 
 export function FavoritesSidebar() {
   const { favorites, toggleFavorite, isSidebarOpen, setSidebarOpen } = useFavorites();
   const { theme } = useTheme();
+  const { isSpeaking, currentTitle, toggleTTS } = useTTS();
 
   return (
     <AnimatePresence>
@@ -56,14 +58,30 @@ export function FavoritesSidebar() {
                     key={idx}
                     className="bg-white dark:bg-slate-800 rounded-xl p-5 shadow-sm border border-slate-200 dark:border-slate-700 relative group"
                   >
-                    <button
-                      onClick={() => toggleFavorite(pledge)}
-                      className="absolute top-4 right-4 p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md opacity-0 group-hover:opacity-100 transition-all"
-                      title="관심 공약에서 제거"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                    <h3 className="text-base font-bold text-slate-900 dark:text-white mb-3 pr-8">
+                    <div className="absolute top-4 right-4 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button
+                        onClick={() => {
+                          const text = `${pledge.title}. ${pledge.items.join('. ')}`;
+                          toggleTTS(pledge.title, text);
+                        }}
+                        className={`p-1.5 rounded-md transition-colors ${
+                          isSpeaking && currentTitle === pledge.title
+                            ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                            : 'text-slate-300 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700'
+                        }`}
+                        title="음성 낭독 토글"
+                      >
+                        {isSpeaking && currentTitle === pledge.title ? <Square className="w-4 h-4 fill-current" /> : <Volume2 className="w-4 h-4" />}
+                      </button>
+                      <button
+                        onClick={() => toggleFavorite(pledge)}
+                        className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+                        title="관심 공약에서 제거"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white mb-3 pr-16">
                       {pledge.title}
                     </h3>
                     <ul className="space-y-2">

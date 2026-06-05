@@ -23,7 +23,7 @@ export function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          최현덕 남양주시장<br/> 당선인 선거 공약
+          최현덕 남양주시장<br/> 당선인 공약집
         </motion.h1>
         
         <motion.p

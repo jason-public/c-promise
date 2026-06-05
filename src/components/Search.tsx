@@ -55,6 +55,7 @@ export function SearchBar({ searchTerm, setSearchTerm }: { searchTerm: string; s
 
 export function SearchResults({ searchTerm }: { searchTerm: string }) {
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { isSpeaking, currentTitle, toggleTTS } = useTTS();
 
   const results = useMemo(() => {
     const term = searchTerm.toLowerCase().trim();
@@ -119,18 +120,34 @@ export function SearchResults({ searchTerm }: { searchTerm: string }) {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {results.core.map((pledge, idx) => (
                   <div key={idx} className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-500 transition-colors group relative">
-                    <button
-                      onClick={() => toggleFavorite(pledge)}
-                      className={`absolute top-4 right-4 p-1.5 rounded-full transition-colors flex-shrink-0 ${
-                        isFavorite(pledge.title)
-                          ? 'text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
-                          : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-yellow-400 hover:bg-slate-100 dark:hover:bg-slate-700'
-                      }`}
-                      aria-label="관심 공약 토글"
-                    >
-                      <Icons.Star className={`w-5 h-5 ${isFavorite(pledge.title) ? 'fill-yellow-400' : ''}`} />
-                    </button>
-                    <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-4 pr-8">
+                    <div className="absolute top-4 right-4 flex items-center gap-1">
+                      <button
+                        onClick={() => {
+                          const text = `${pledge.title}. ${pledge.items.join('. ')}`;
+                          toggleTTS(pledge.title, text);
+                        }}
+                        className={`p-1.5 rounded-full transition-colors flex-shrink-0 ${
+                          isSpeaking && currentTitle === pledge.title
+                            ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                            : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700'
+                        }`}
+                        aria-label="음성 낭독 토글"
+                      >
+                        {isSpeaking && currentTitle === pledge.title ? <Icons.Square className="w-5 h-5 fill-current" /> : <Icons.Volume2 className="w-5 h-5" />}
+                      </button>
+                      <button
+                        onClick={() => toggleFavorite(pledge)}
+                        className={`p-1.5 rounded-full transition-colors flex-shrink-0 ${
+                          isFavorite(pledge.title)
+                            ? 'text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
+                            : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-yellow-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                        }`}
+                        aria-label="관심 공약 토글"
+                      >
+                        <Icons.Star className={`w-5 h-5 ${isFavorite(pledge.title) ? 'fill-yellow-400' : ''}`} />
+                      </button>
+                    </div>
+                    <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-4 pr-16">
                       <Highlight text={pledge.title} highlight={searchTerm} />
                     </h4>
                     <ul className="space-y-3">
@@ -185,17 +202,33 @@ export function SearchResults({ searchTerm }: { searchTerm: string }) {
                           <h5 className="font-semibold text-slate-900 dark:text-white pr-4">
                             <Highlight text={sub.title} highlight={searchTerm} />
                           </h5>
-                          <button
-                            onClick={() => toggleFavorite(sub)}
-                            className={`p-1.5 -mt-1 -mr-1 rounded-full transition-colors flex-shrink-0 ${
-                              isFavorite(sub.title)
-                                ? 'text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
-                                : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-yellow-400 hover:bg-slate-100 dark:hover:bg-slate-700'
-                            }`}
-                            aria-label="관심 공약 토글"
-                          >
-                            <Icons.Star className={`w-4 h-4 ${isFavorite(sub.title) ? 'fill-yellow-400' : ''}`} />
-                          </button>
+                          <div className="flex items-center gap-0.5">
+                            <button
+                              onClick={() => {
+                                const text = `${sub.title}. ${sub.items.join('. ')}`;
+                                toggleTTS(sub.title, text);
+                              }}
+                              className={`p-1.5 -mt-1 rounded-full transition-colors flex-shrink-0 ${
+                                isSpeaking && currentTitle === sub.title
+                                  ? 'text-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                                  : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-blue-500 hover:bg-slate-100 dark:hover:bg-slate-700'
+                              }`}
+                              aria-label="음성 낭독 토글"
+                            >
+                              {isSpeaking && currentTitle === sub.title ? <Icons.Square className="w-4 h-4 fill-current" /> : <Icons.Volume2 className="w-4 h-4" />}
+                            </button>
+                            <button
+                              onClick={() => toggleFavorite(sub)}
+                              className={`p-1.5 -mt-1 -mr-1 rounded-full transition-colors flex-shrink-0 ${
+                                isFavorite(sub.title)
+                                  ? 'text-yellow-400 hover:bg-yellow-50 dark:hover:bg-yellow-900/20'
+                                  : 'text-slate-300 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-yellow-400 hover:bg-slate-100 dark:hover:bg-slate-700'
+                              }`}
+                              aria-label="관심 공약 토글"
+                            >
+                              <Icons.Star className={`w-4 h-4 ${isFavorite(sub.title) ? 'fill-yellow-400' : ''}`} />
+                            </button>
+                          </div>
                         </div>
                         <ul className="space-y-2">
                           {sub.items.map((item, itemIdx) => (
