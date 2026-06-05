@@ -1,0 +1,6 @@
+{
+  "name": "최현덕 시장후보 공약집",
+  "description": "최현덕 남양주시장 당선인 공약사항을 시각적으로 정리한 공약집 웹사이트입니다.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
