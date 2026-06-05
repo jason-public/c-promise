@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { regionalPledges } from '../data/regionalPledges';
-import { MapPin, Check } from 'lucide-react';
+import { MapPin, Check, X } from 'lucide-react';
+import { MapComponent } from './MapComponent';
 
 export function RegionalPledges() {
-  const [selectedRegion, setSelectedRegion] = useState(regionalPledges[0].region);
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
 
-  const activeRegionData = regionalPledges.find(r => r.region === selectedRegion) || regionalPledges[0];
+  const activeRegionData = selectedRegion ? regionalPledges.find(r => r.region === selectedRegion) : null;
 
   return (
     <section id="regional-pledges" className="py-24 bg-white dark:bg-slate-800 transition-colors duration-300">
@@ -27,76 +28,76 @@ export function RegionalPledges() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto"
           >
-            남양주시 각 지역의 특성에 맞는 맞춤형 발전을 약속합니다.
+            지도의 지역을 선택하여 공약을 확인해보세요.
           </motion.p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-          {/* Region Selector (Sidebar on Desktop, Select/Grid on Mobile) */}
-          <div className="lg:w-1/3 shrink-0">
-            <div className="sticky top-28 bg-slate-50 dark:bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-100 dark:border-slate-700 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-                <MapPin className="w-5 h-5 text-blue-500" />
-                지역 선택
-              </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-2 max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar">
-                {regionalPledges.map((region) => (
-                  <button
-                    key={region.region}
-                    onClick={() => setSelectedRegion(region.region)}
-                    className={`py-3 px-4 rounded-xl text-sm font-bold transition-all text-left ${
-                      selectedRegion === region.region
-                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20'
-                        : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
-                    }`}
-                  >
-                    {region.region}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className="flex flex-col gap-8">
+          {/* Map Section */}
+          <div className="w-full relative">
+             <MapComponent selectedRegion={selectedRegion} onRegionSelect={setSelectedRegion} />
+             
+             {/* Region Details Popup */}
+             <AnimatePresence>
+               {selectedRegion && activeRegionData && (
+                 <>
+                   {/* Backdrop */}
+                   <motion.div
+                     initial={{ opacity: 0 }}
+                     animate={{ opacity: 1 }}
+                     exit={{ opacity: 0 }}
+                     onClick={() => setSelectedRegion(null)}
+                     className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm z-[900] rounded-2xl"
+                   />
+                   
+                   {/* Modal */}
+                   <motion.div
+                     key={selectedRegion}
+                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                     animate={{ opacity: 1, scale: 1, y: 0 }}
+                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                     transition={{ duration: 0.2 }}
+                     className="absolute inset-x-4 bottom-4 lg:inset-auto lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:w-[600px] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl p-6 sm:p-10 shadow-2xl border border-slate-200 dark:border-slate-700 z-[1000] max-h-[80vh] overflow-y-auto custom-scrollbar"
+                   >
+                   <button 
+                     onClick={() => setSelectedRegion(null)}
+                     className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 dark:text-slate-400 rounded-full transition-colors"
+                     aria-label="닫기"
+                   >
+                     <X className="w-5 h-5" />
+                   </button>
 
-          {/* Region Details */}
-          <div className="lg:w-2/3">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={selectedRegion}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white dark:bg-slate-900 rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-200 dark:border-slate-800"
-              >
-                <div className="flex items-center gap-4 mb-8 border-b border-slate-100 dark:border-slate-800 pb-6">
-                  <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center shrink-0">
-                    <MapPin className="w-6 h-6 text-blue-600 dark:text-blue-400" />
-                  </div>
-                  <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-                    {activeRegionData.region} 공약
-                  </h3>
-                </div>
+                   <div className="flex items-center gap-4 mb-6 border-b border-slate-200 dark:border-slate-700 pb-4 pr-8">
+                     <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 dark:bg-blue-900/40 rounded-xl flex items-center justify-center shrink-0">
+                       <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400" />
+                     </div>
+                     <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
+                       {activeRegionData.region} 공약
+                     </h3>
+                   </div>
 
-                <ul className="space-y-4 sm:space-y-6">
-                  {activeRegionData.items.map((item, idx) => (
-                    <motion.li 
-                      key={idx}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: idx * 0.05 }}
-                      className="flex items-start bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-700/50 hover:border-blue-200 dark:hover:border-blue-800 transition-colors"
-                    >
-                      <div className="mt-1 bg-white dark:bg-slate-800 rounded-full p-1 shadow-sm shrink-0 mr-4 border border-slate-100 dark:border-slate-700">
-                        <Check className="w-4 h-4 text-blue-500" />
-                      </div>
-                      <span className="text-base sm:text-lg text-slate-700 dark:text-slate-300 font-medium leading-relaxed break-keep pt-0.5">
-                        {item}
-                      </span>
-                    </motion.li>
-                  ))}
-                </ul>
-              </motion.div>
-            </AnimatePresence>
+                   <ul className="space-y-3 sm:space-y-4">
+                     {activeRegionData.items.map((item, idx) => (
+                       <motion.li 
+                         key={idx}
+                         initial={{ opacity: 0, x: -10 }}
+                         animate={{ opacity: 1, x: 0 }}
+                         transition={{ delay: idx * 0.05 }}
+                         className="flex items-start bg-slate-50 dark:bg-slate-800/80 p-4 rounded-xl sm:rounded-2xl border border-slate-100 dark:border-slate-700 hover:border-blue-200 dark:hover:border-blue-700 transition-colors"
+                       >
+                         <div className="mt-0.5 bg-white dark:bg-slate-900 rounded-full p-1 shadow-sm shrink-0 mr-3 border border-slate-200 dark:border-slate-600">
+                           <Check className="w-3 h-3 sm:w-4 sm:h-4 text-blue-500" />
+                         </div>
+                         <span className="text-sm sm:text-base text-slate-700 dark:text-slate-300 font-medium leading-relaxed break-keep">
+                           {item}
+                         </span>
+                       </motion.li>
+                     ))}
+                   </ul>
+                 </motion.div>
+                 </>
+               )}
+             </AnimatePresence>
           </div>
         </div>
       </div>
