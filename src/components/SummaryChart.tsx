@@ -1,25 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { motion, AnimatePresence } from 'motion/react';
-import { pledgeCategories, PledgeCategory } from '../data/pledges';
-import * as Icons from 'lucide-react';
-import { X } from 'lucide-react';
-
-function Icon({ name, className }: { name: string; className?: string }) {
-  const LucideIcon = (Icons as any)[name];
-  return LucideIcon ? <LucideIcon className={className} /> : null;
-}
+import { motion } from 'motion/react';
+import { pledgeCategories } from '../data/pledges';
 
 export function SummaryChart() {
-  const [selectedCategory, setSelectedCategory] = useState<PledgeCategory | null>(null);
-
-  // Close modal on escape key
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      setSelectedCategory(null);
-    }
-  };
-
   const data = useMemo(() => {
     return pledgeCategories.map(cat => {
       // Split by '·' or ' ' to get a short name for the X axis
@@ -28,7 +12,6 @@ export function SummaryChart() {
         name: shortName,
         fullName: cat.title,
         count: cat.subPledges.reduce((sum, sub) => sum + sub.items.length, 0),
-        originalCategory: cat
       };
     }).sort((a, b) => b.count - a.count);
   }, []);
@@ -99,19 +82,7 @@ export function SummaryChart() {
                     return label;
                   }}
                 />
-                <Bar 
-                  dataKey="count" 
-                  radius={[6, 6, 0, 0]} 
-                  maxBarSize={60}
-                  onClick={(data: any) => {
-                    if (data && data.payload && data.payload.originalCategory) {
-                      setSelectedCategory(data.payload.originalCategory);
-                    } else if (data && data.originalCategory) {
-                      setSelectedCategory(data.originalCategory);
-                    }
-                  }}
-                  className="cursor-pointer hover:opacity-80 transition-opacity"
-                >
+                <Bar dataKey="count" radius={[6, 6, 0, 0]} maxBarSize={60}>
                   {data.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
@@ -120,87 +91,6 @@ export function SummaryChart() {
             </ResponsiveContainer>
           </div>
         </motion.div>
-
-        <AnimatePresence>
-          {selectedCategory && (
-            <>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => setSelectedCategory(null)}
-                className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-              />
-              <div className="fixed inset-0 pointer-events-none z-50 flex items-center justify-center p-4 sm:p-6">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                  transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-                  className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[85vh] overflow-hidden pointer-events-auto flex flex-col"
-                  role="dialog"
-                  aria-modal="true"
-                  tabIndex={-1}
-                  onKeyDown={handleKeyDown}
-                >
-                  <div className="flex flex-shrink-0 items-center justify-between p-6 sm:p-8 border-b border-slate-100 bg-slate-50/50">
-                    <div className="flex items-center gap-4">
-                      <div className="p-3 bg-blue-100 text-blue-600 rounded-xl">
-                        <Icon name={selectedCategory.iconName} className="w-8 h-8" />
-                      </div>
-                      <div>
-                        <h3 className="text-2xl font-bold text-slate-900">
-                          {selectedCategory.title}
-                        </h3>
-                        {selectedCategory.subtitle && (
-                          <p className="text-slate-500 font-medium mt-1">
-                            {selectedCategory.subtitle}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => setSelectedCategory(null)}
-                      className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors self-start"
-                      aria-label="닫기"
-                    >
-                      <X className="w-6 h-6" />
-                    </button>
-                  </div>
-                  
-                  <div className="p-6 sm:p-8 overflow-y-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-                      {selectedCategory.subPledges.map((subPledge, idx) => (
-                        <div key={idx} className="space-y-4 relative">
-                          <h4 className="text-lg font-bold text-slate-900 border-b border-slate-100 pb-2">
-                            {subPledge.title}
-                          </h4>
-                          <ul className="space-y-3">
-                            {subPledge.items.map((item, itemIdx) => (
-                              <li key={itemIdx} className="flex items-start">
-                                <Icon name="Check" className="w-5 h-5 text-blue-500 mr-3 shrink-0 mt-0.5" />
-                                <span className="text-slate-700 leading-relaxed text-sm sm:text-base">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  <div className="bg-slate-50 p-6 flex justify-end border-t border-slate-100 flex-shrink-0">
-                    <button
-                      onClick={() => setSelectedCategory(null)}
-                      className="px-6 py-2.5 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors font-medium"
-                    >
-                      닫기
-                    </button>
-                  </div>
-                </motion.div>
-              </div>
-            </>
-          )}
-        </AnimatePresence>
       </div>
     </section>
   );

@@ -42,17 +42,12 @@ export function CorePledges() {
             >
               <h3 className="text-xl font-bold text-slate-900 mb-6 group-hover:text-blue-600 transition-colors">{pledge.title}</h3>
               <ul className="space-y-4">
-                {pledge.items.slice(0, 3).map((item, itemIndex) => (
+                {pledge.items.map((item, itemIndex) => (
                   <li key={itemIndex} className="flex items-start text-slate-700">
                     <span className="flex-shrink-0 h-1.5 w-1.5 rounded-full bg-blue-500 mt-2 mr-3" />
-                    <span className="leading-relaxed line-clamp-2">{item}</span>
+                    <span className="leading-relaxed">{item}</span>
                   </li>
                 ))}
-                {pledge.items.length > 3 && (
-                  <li className="text-sm text-blue-500 font-medium pt-2">
-                    더보기 +{pledge.items.length - 3}
-                  </li>
-                )}
               </ul>
             </motion.div>
           ))}
