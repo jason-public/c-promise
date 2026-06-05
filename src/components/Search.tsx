@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { corePledges, pledgeCategories, SubPledge, PledgeCategory } from '../data/pledges';
 import * as Icons from 'lucide-react';
 import { useFavorites } from './FavoritesContext';
+import { useTTS } from './TTSContext';
 
 function Icon({ name, className }: { name: string; className?: string }) {
   const LucideIcon = (Icons as any)[name];
@@ -93,21 +94,22 @@ export function SearchResults({ searchTerm }: { searchTerm: string }) {
 
   if (!hasResults) {
     return (
-      <section className="py-24 bg-slate-50 dark:bg-slate-900 min-h-[50vh] flex flex-col items-center justify-center transition-colors duration-300">
-        <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4">
+      <section className="py-24 bg-slate-50 dark:bg-slate-900 min-h-[50vh] flex flex-col items-center justify-center transition-colors duration-300 px-6 text-center">
+        <div className="w-16 h-16 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mb-4 shrink-0">
           <SearchIcon className="w-8 h-8 text-slate-300 dark:text-slate-600" />
         </div>
-        <p className="text-xl text-slate-500 dark:text-slate-400 font-medium">"{searchTerm}"에 대한 공약을 찾을 수 없습니다.</p>
+        <p className="text-xl text-slate-500 dark:text-slate-400 font-medium max-w-full break-words">"{searchTerm}"에 대한 공약을 찾을 수 없습니다.</p>
         <p className="text-slate-400 dark:text-slate-500 mt-2">다른 키워드로 검색해보세요.</p>
       </section>
     );
   }
 
   return (
-    <section className="py-16 bg-slate-50 dark:bg-slate-900 min-h-[50vh] transition-colors duration-300">
+    <section className="py-16 bg-slate-50 dark:bg-slate-900 min-h-[50vh] transition-colors duration-300 overflow-hidden">
       <div className="max-w-4xl mx-auto px-6 lg:px-8">
-        <div className="mb-10 text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 inline-block px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm">
-          <span className="font-bold text-blue-600 dark:text-blue-400">"{searchTerm}"</span> 검색 결과
+        <div className="mb-10 text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 px-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm inline-flex items-center max-w-full">
+          <span className="font-bold text-blue-600 dark:text-blue-400 break-all line-clamp-2">"{searchTerm}"</span> 
+          <span className="whitespace-nowrap ml-1 shrink-0">검색 결과</span>
         </div>
         
         <div className="space-y-12">
@@ -147,14 +149,14 @@ export function SearchResults({ searchTerm }: { searchTerm: string }) {
                         <Icons.Star className={`w-5 h-5 ${isFavorite(pledge.title) ? 'fill-yellow-400' : ''}`} />
                       </button>
                     </div>
-                    <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-4 pr-16">
+                    <h4 className="text-lg font-bold text-slate-900 dark:text-white mb-4 pr-16 leading-snug break-keep">
                       <Highlight text={pledge.title} highlight={searchTerm} />
                     </h4>
                     <ul className="space-y-3">
                       {pledge.items.map((item, itemIdx) => (
                         <li key={itemIdx} className="flex items-start text-slate-700 dark:text-slate-300">
                           <span className="flex-shrink-0 h-1.5 w-1.5 rounded-full bg-blue-500 mt-2 mr-3" />
-                          <span className="leading-relaxed">
+                          <span className="leading-relaxed break-keep">
                             <Highlight text={item} highlight={searchTerm} />
                           </span>
                         </li>
@@ -180,15 +182,15 @@ export function SearchResults({ searchTerm }: { searchTerm: string }) {
                   className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200 dark:border-slate-700"
                 >
                   <div className="flex items-center gap-4 mb-6 border-b border-slate-100 dark:border-slate-700 pb-4">
-                    <div className="p-2.5 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl">
+                    <div className="p-2.5 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl shrink-0">
                       <Icon name={cat.iconName} className="w-6 h-6" />
                     </div>
-                    <div>
-                      <h4 className="text-xl font-bold text-slate-900 dark:text-white">
+                    <div className="min-w-0 flex-1">
+                      <h4 className="text-xl font-bold text-slate-900 dark:text-white break-words">
                         <Highlight text={cat.title} highlight={searchTerm} />
                       </h4>
                       {cat.subtitle && (
-                        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 break-words">
                           <Highlight text={cat.subtitle} highlight={searchTerm} />
                         </p>
                       )}
@@ -198,11 +200,11 @@ export function SearchResults({ searchTerm }: { searchTerm: string }) {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {cat.subPledges.map((sub, idx) => (
                       <div key={idx} className="group relative">
-                        <div className="flex items-start justify-between mb-3">
-                          <h5 className="font-semibold text-slate-900 dark:text-white pr-4">
+                        <div className="flex items-start justify-between mb-3 gap-2">
+                          <h5 className="font-semibold text-slate-900 dark:text-white pr-4 break-keep">
                             <Highlight text={sub.title} highlight={searchTerm} />
                           </h5>
-                          <div className="flex items-center gap-0.5">
+                          <div className="flex items-center gap-0.5 shrink-0">
                             <button
                               onClick={() => {
                                 const text = `${sub.title}. ${sub.items.join('. ')}`;
@@ -234,7 +236,7 @@ export function SearchResults({ searchTerm }: { searchTerm: string }) {
                           {sub.items.map((item, itemIdx) => (
                             <li key={itemIdx} className="flex items-start">
                               <Icon name="Check" className="w-4 h-4 text-emerald-500 mr-2 shrink-0 mt-1" />
-                              <span className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed">
+                              <span className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed break-keep">
                                 <Highlight text={item} highlight={searchTerm} />
                               </span>
                             </li>
